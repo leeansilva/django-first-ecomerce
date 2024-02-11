@@ -3,7 +3,7 @@ from simple_history.models import HistoricalRecords
 from apps.base.models import BaseModel
 
 class MeasureUnit(BaseModel):
-    description = models.CharField('Descripción', max_length = 50, blank = False, null = False, unique = True)
+    description = models.CharField('Descripción', max_length = 50, unique = True)
     historical = HistoricalRecords()
     
     @property
@@ -25,8 +25,7 @@ class MeasureUnit(BaseModel):
 #*--------------------------------------------------------------------------------------
 
 class CategoryProduct(BaseModel):
-    description = models.CharField('Descripción', max_length = 50, blank = False, null = False, unique = True)
-    measure_unit = models.ForeignKey(MeasureUnit, verbose_name = 'Unidad de medida', on_delete = models.CASCADE)
+    description = models.CharField('Descripción', max_length = 50, unique = True)
     historical = HistoricalRecords()
     
     @property
@@ -76,6 +75,8 @@ class Product(BaseModel):
     name = models.CharField('Nombre de producto', max_length = 150, unique = True, blank = False, null = False)
     description = models.TextField('Descripción del producto', blank = False, null = False)
     image = models.ImageField('Imágen del producto', upload_to='products/', blank=True, null=True)
+    measure_unit = models.ForeignKey(MeasureUnit, verbose_name = 'Unidad de medida', on_delete = models.CASCADE, null = True)
+    category_product = models.ForeignKey(CategoryProduct, verbose_name = 'Categoría de producto', on_delete = models.CASCADE, null = True)
     historical = HistoricalRecords()
     
     @property
